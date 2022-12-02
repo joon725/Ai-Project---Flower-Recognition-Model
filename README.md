@@ -1,6 +1,6 @@
 # Ai-Project-Flower-Recognition-Model
 # Topic
-```
+```python
 꽃 생장 파악 알고리즘(CNN, Classification etc)
 ```
 # Member
@@ -10,7 +10,7 @@
 홍종호, 기계공학부, hjho6389@hanyang.ac.kr
 ```
 # Index
-```
+```python
 1. Motivation
 
 2. Datasets
@@ -39,7 +39,7 @@
 * 꽃 이미지로, 어떤 꽃인지 판별
 
 # Dataset
-```
+```python
 https://docs.google.com/spreadsheets/d/1mdLbku2yM-XiBmN0Lm_O82xbFbpup1E1mkY1KXwGuds/edit#gid=0
 https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126168e7af1723418d7
 ```
@@ -95,7 +95,7 @@ CNN은 위 이미지와 같이 이미지의 특징을 추출하는 부분과 클
 
 
 ## 1) Image Crawling
-```
+```python
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -141,12 +141,12 @@ driver.close()
 ## 2) Flower-Recognition-Model
 
 ### (1) Content Drive, Import OS
-```
+```python
 from google.colab import drive
 drive.mount('/content/drive')
 ```
 Mounted at /content/drive
-```
+```python
 import os
 ```
 <br/>
@@ -155,7 +155,7 @@ import os
 <br/>
 
 ### (2) Load Image, Check quantity
-```
+```python
 # 수정된 디렉토리
 train_healthy_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/train/healthy'
 train_tipburn_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/train/tipburn'
@@ -178,7 +178,7 @@ print('테스트용 팁번 이미지 전체 개수:',len(os.listdir(test_tipburn
 검증용 팁번 이미지 전체 개수: 160<br/>
 테스트용 건강 이미지 전체 개수: 59<br/>
 테스트용 팁번 이미지 전체 개수: 77<br/>
-```
+```python
 train_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/train'
 val_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/val'
 test_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/test'
@@ -188,7 +188,7 @@ test_dir = '/content/drive/MyDrive/Colab Notebooks/tip burn project/test'
 <br/><br/>
 
 ### (3) Data Preprocessing, Image scaling
-```
+```python
 from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(rescale=1./255)
@@ -208,7 +208,7 @@ validation_generator = test_datagen.flow_from_directory(
 ```
 Found 1011 images belonging to 2 classes.<br/>
 Found 284 images belonging to 2 classes.
-```
+```python
 for data_batch, labels_batch in train_generator:
     print('배치 데이터 크기:', data_batch.shape)
     print('배치 레이블 크기:', labels_batch.shape)
@@ -222,7 +222,7 @@ for data_batch, labels_batch in train_generator:
 * 배치 데이터와 레이블 크기를 확입합니다.<br/><br/>
 
 ### (4) Model construction, variable setting
-```
+```python
 from keras import layers
 from keras import models
 
@@ -240,7 +240,7 @@ model.add(layers.Flatten())
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 ```
-```
+```python
 model.summary()
 ```
 ```
@@ -286,7 +286,7 @@ _________________________________________________________________
 * Conv2D의 layer는 64,128,256 중으로 설정을 진행하였고 model을 구사합니다.
 <br/><br/>
 ### (4) Learning Rate, Optimized setting
-```
+```python
 from keras import optimizers
 
 model.compile(loss='binary_crossentropy',
@@ -298,7 +298,7 @@ model.compile(loss='binary_crossentropy',
 * lr : learning rate로 10^-5 ~ 10^-4 설정합니다. model1 같은 경우 1e-4로 설정하였습니다.
 <br/><br/>
 ### (5) Steps Per Epoch
-```
+```python
 history = model.fit(
       train_generator,
       steps_per_epoch=20, 
@@ -351,11 +351,11 @@ Epoch 20/20<br/>
 * epoch수를 조절하고 우리는 parameter를 조절하면서 오차를 개선
 <br/><br/>
 ### (6) Load models
-```
+```python
 from keras.models import load_model
 model.save('/content/drive/MyDrive/Colab Notebooks/tip burn project/model/model.h5')
 ```
-```
+```python
 from keras.models import load_model
 model = load_model('/content/drive/MyDrive/Colab Notebooks/tip burn project/model/model.h5')
 model.summary()
@@ -402,7 +402,7 @@ _________________________________________________________________
 * 변수들을 설정한뒤 다시 모델을 불러옵니다.
 <br/><br/><br/>
 ### (7) Plot for the accuracy
-```
+```python
 import matplotlib.pyplot as plt
 
 acc = history.history['acc']
@@ -440,7 +440,7 @@ plt.show()
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
@@ -469,7 +469,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
@@ -500,7 +500,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
@@ -533,7 +533,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
@@ -566,7 +566,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
@@ -599,7 +599,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :deeper
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(300, 300, 3)))
@@ -635,7 +635,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(300, 300, 3)))
@@ -671,7 +671,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(300, 300, 3)))
@@ -707,7 +707,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(300, 300, 3)))
@@ -743,7 +743,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  2) batch_size : 20
  3) model composition :
 
-```
+```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(300, 300, 3)))
@@ -789,11 +789,12 @@ model.add(layers.Dense(1, activation='sigmoid'))
 정확도 93.47%와 val acc가 95%로 모댈의 오차를 최적화한채 구현 하였습니다.
 
 
-# Related Works
-https://goldsystem.tistory.com/822
-https://www.kaggle.com/code/mrisdal/exploring-survival-on-the-titanic/report
-https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126168e7af1723418d7
-http://taewan.kim/post/cnn/
-https://rubber-tree.tistory.com/entry/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-CNN-Convolutional-Neural-Network-%EC%84%A4%EB%AA%85
-https://halfundecided.medium.com/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-cnn-convolutional-neural-networks-%EC%89%BD%EA%B2%8C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-836869f88375
+## Related Works 
+
+<br/>
+- https://goldsystem.tistory.com/822 <br/>
+- https://www.kaggle.com/code/mrisdal/exploring-survival-on-the-titanic/report <br/>
+- https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126168e7af1723418d7 <br/>
+- http://taewan.kim/post/cnn/ <br>
+- https://rubber-tree.tistory.com/entry/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-CNN-Convolutional-Neural-Network-%EC%84%A4%EB%AA%85 <br/>
 - 원영준 교수님 딥러닝 강의자료
