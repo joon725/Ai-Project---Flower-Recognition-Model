@@ -889,5 +889,5 @@ cv2_imshow(img3)
 - https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126168e7af1723418d7 <br/>
 - http://taewan.kim/post/cnn/ <br>
 - https://rubber-tree.tistory.com/entry/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-CNN-Convolutional-Neural-Network-%EC%84%A4%EB%AA%85 <br/>
-- https://opencv.org/ <
+- https://opencv.org/ <br/>
 - 원영준 교수님 딥러닝 강의자료
