@@ -857,6 +857,7 @@ cv2_imshow(img3)
 
 # Conclusion : Discussion
 
+## Mission1
 ## Best Optimized Model
 
 ![model 딥러닝 표](https://user-images.githubusercontent.com/117802301/204227189-844a6992-07ca-46b2-b193-2c8f9ef7f99b.png)
@@ -871,6 +872,9 @@ cv2_imshow(img3)
 
 최종적으로 구현한 모델에서 과적함을 극복하고 accuracy와 val_accuracy 모두 안정적으로 증가하는 경향을 보였습니다..
 정확도 93.47%와 val acc가 95%로 모델의 오차를 안정적으로 줄이는데 성공하였습니다.
+
+## Mission2
+
 
 
 ## Related Works 
