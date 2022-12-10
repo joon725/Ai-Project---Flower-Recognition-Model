@@ -30,7 +30,7 @@
 이러한 상황에서, 꽃의 생장 단계 및 생장 상황을 파악하는 딥러닝 알고리즘에 대한 개발을 시도해보고자 이번 프로젝트를 기획하게 되었습니다.
 
 **스마트팜용 꽃 생장 파악 알고리즘**
-1. 식물의 생장 상황을 파악 : 병들었는지 아닌지 구별
+Mission1. 식물의 생장 상황을 파악 : 병들었는지 아닌지 구별
 * 팁번 : 나뭇잎 끝이 누렇게 변하는 현상
 * 영양분이 부족하거나, 물이 부족하거나 등등의 원인으로 인해 생기는 현상 팁번처럼, 지금 싱싱한지 아닌지를 파악 
 
@@ -53,6 +53,7 @@ https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126
 # Methodology
 
 
+## Mission1
 ## 1) Image crawling using Python Selenium
 
 VSCODE를 사용하여 가상환경에서 셀레니움을 설치한다. 이후 구글에서 이미지 크롤링이 가능한 코드를 입력하여 검색어("Tipburn","Healthy leaf"),를 바꾸어가며 이미지를 수집하고, 사용 가능한 데이터를 정리한다.
@@ -90,6 +91,7 @@ CNN은 위 이미지와 같이 이미지의 특징을 추출하는 부분과 클
 우리는 CNN의 딥러닝 기법을 활용하여 각 잎의 픽셀 별로 공간을 유지한채 색상을 파악할 예정입니다. 그리고 색상에 따라 이것이 건강한 잎인지 아닌지를 구별하면서 모델을 구현하고
 추가로 이 CNN을 활용했을 때 나타나는 변수들을 설정하고 그에 따른 결과치를 정확도를 비교하여 분석하였습니다. 
 
+## Mission2
 ### (4) OpenCV를 활용한 개화/비개화 구분
 
 OpenCV란? : Open Source Computer Vision의 약자로 다양한 영상/동영상 처리에 사용할 수 있는 오픈소스 라이브러리입니다. 
@@ -106,6 +108,7 @@ OpenCV란? : Open Source Computer Vision의 약자로 다양한 영상/동영상
 
 # Evaluation & Analysis
 
+## Mission1
 
 ## 1) Image Crawling
 ```python
@@ -780,16 +783,84 @@ model.add(layers.Dense(1, activation='sigmoid'))
  6) steps_per_epoch = 30 & epochs = 15 
  7) Data augmentation 외제외
 
-![aix_model9](https://user-images.githubusercontent.com/117802301/204225839-5e0ec504-246e-498e-b580-9cc794053abb.png)
+![best](https://user-images.githubusercontent.com/79332492/206860577-c244f622-de3f-4622-96d0-c67ec7f7f215.png)
 
 #### insight : Data augmentation 삭제로 성능 저해 방지. 과적합이 개선되었음. 또한 acc 93.47%, val_acc 95%로 성능 또한 매우 우수함.
+
+## Mission2
+
+<OpenCV를 통해 개화를 판단하는 알고리즘 만들기>
+
+```python import numpy as np 
+import cv2 
+from google.colab.patches import cv2_imshow
+
+hsvFrame = cv2.cvtColor(imageFrame, cv2.COLOR_BGR2HSV)
+
+# Set range for red color and 
+# define mask 
+red_lower = np.array([136, 87, 111], np.uint8) 
+red_upper = np.array([180, 255, 255], np.uint8) 
+red_mask = cv2.inRange(hsvFrame, red_lower, red_upper) 
+
+	# Set range for green color and 
+	# define mask 
+green_lower = np.array([25, 52, 72], np.uint8) 
+green_upper = np.array([102, 255, 255], np.uint8) 
+green_mask = cv2.inRange(hsvFrame, green_lower, green_upper) 
+
+	# Set range for blue color and 
+	# define mask 
+blue_lower = np.array([94, 80, 2], np.uint8) 
+blue_upper = np.array([120, 255, 255], np.uint8) 
+blue_mask = cv2.inRange(hsvFrame, blue_lower, blue_upper)
+
+kernal = np.ones((5, 5), "uint8")
+
+# For red color 
+red_mask = cv2.dilate(red_mask, kernal) 
+res_red = cv2.bitwise_and(imageFrame, imageFrame, mask = red_mask) 
+	
+# For green color 
+green_mask = cv2.dilate(green_mask, kernal) 
+res_green = cv2.bitwise_and(imageFrame, imageFrame, mask = green_mask) 
+	
+# For blue color 
+blue_mask = cv2.dilate(blue_mask, kernal) 
+res_blue = cv2.bitwise_and(imageFrame, imageFrame, mask = blue_mask) 
+
+# Creating contour to track green color and red color
+contours_G, hierarchy = cv2.findContours(green_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+cv2.drawContours(imageFrame, contours_G, -1, (0,255,0), 3 )
+
+contours_R, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+cv2.drawContours(imageFrame, contours_R, -1, (0,0,255), 3 )
+
+cv2_imshow(imageFrame)
+
+area_G = 0
+area_R = 0
+
+for i in range(len(contours_G)):
+  area_G += cv2.contourArea(contours_G[i])
+
+for i in range(len(contours_R)):
+  area_R += cv2.contourArea(contours_R[i])
+
+white = (255, 255, 255)
+font = cv2.FONT_HERSHEY_PLAIN
+
+img2 = cv2.putText(imageFrame, "GREEN:" + str(round((area_G/786432)*100, 2))+"%" , (550, 900), font, 2, white, 2, cv2.LINE_AA)
+img3 = cv2.putText(img2, "RED:" + str(round((area_R/786432)*100, 2))+"%" , (550, 930), font, 2, white, 2, cv2.LINE_AA)
+cv2_imshow(img3)
+```
 
 # Conclusion : Discussion
 
 ## Best Optimized Model
 
 ![model 딥러닝 표](https://user-images.githubusercontent.com/117802301/204227189-844a6992-07ca-46b2-b193-2c8f9ef7f99b.png)
-![model 10](https://user-images.githubusercontent.com/117802301/204227347-c7c375aa-6b6c-471d-9c72-57c2d434f2d3.png)
+![best](https://user-images.githubusercontent.com/79332492/206860577-c244f622-de3f-4622-96d0-c67ec7f7f215.png)
 
 * Insight를 모델1~9까지 develop하면서 성능이 개선되었던 포인트만 반영했더니 최고의 결과가 나왔음
 1. 이미지 사이즈를 확대하고, 모델의 깊이를 증가 => 성능 및 안정성 개선
@@ -798,8 +869,8 @@ model.add(layers.Dense(1, activation='sigmoid'))
 4. step per epoch 와 epoch 를 각각 30 과 25 로 진행하여, 충분한 학습이 이뤄지도록 함.
 5. Data augmentation은 적은 데이터수에 비해 과하게 다양한 학습을 일으켜 학습 성능을 저해시켰던 경험을 반영하여 삭제하였음.
 
-최종적으로 구현한 모델에서 과적함을 극복하고 loss가 감소하면서 accuracy가 증가하는 현상이 발생하였습니다.
-정확도 93.47%와 val acc가 95%로 모댈의 오차를 최적화한채 구현 하였습니다.
+최종적으로 구현한 모델에서 과적함을 극복하고 accuracy와 val_accuracy 모두 안정적으로 증가하는 경향을 보였습니다..
+정확도 93.47%와 val acc가 95%로 모델의 오차를 안정적으로 줄이는데 성공하였습니다.
 
 
 ## Related Works 
