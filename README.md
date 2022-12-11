@@ -1,3 +1,6 @@
+유튜브 링크 : 
+https://youtu.be/5BqI4m-KHgc
+
 # Ai-Project-Flower-Recognition-Model
 # Topic
 ```python
@@ -892,3 +895,7 @@ cv2_imshow(img3)
 - https://rubber-tree.tistory.com/entry/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-CNN-Convolutional-Neural-Network-%EC%84%A4%EB%AA%85 <br/>
 - https://opencv.org/ <br/>
 - 원영준 교수님 딥러닝 강의자료
+
+
+유튜브 링크 :
+https://youtu.be/5BqI4m-KHgc
