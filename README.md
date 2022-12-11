@@ -45,8 +45,7 @@ https://www.kaggle.com/datasets/cf488efb70f71b0db8c5a69539ea35874787d4a4ab835126
 ![images of strawberry](https://user-images.githubusercontent.com/117802301/204216971-6f71729a-33cc-4101-af74-6cf7dbff3470.png)
 
 본 이미지는 kaggle 사이트에서 각 calciumdeficiency 사진 805장과 건강한 잎 626장을 데이터 셋으로 불러왔습니다. 
-구글 드라이브를 통해 총 1431의 파일을 저장하여 이를 colab으로 불러와 꽃 사진을 분류하는 프로그램을 진행하였고 kaggle 사이트에서 가져온 1431의 사진 파일과 10 columns 뿐만 아니라
-구글에서 따로 이미지 크롤링을 python 셀레니움을 통해 자동으로 정리하는 시스템을 갖보았습니다.
+구글 드라이브를 통해 총 1431의 파일을 저장하여 이를 colab으로 불러와 꽃 사진을 분류하는 프로그램을 진행하였고 kaggle 사이트에서 가져온 1431의 사진 파일과 10 columns 뿐만 아니라 구글에서 따로 이미지 크롤링을 python 셀레니움을 통해 자동으로 정리하는 시스템을 갖춰보았습니다.
 
 
 
@@ -235,7 +234,7 @@ for data_batch, labels_batch in train_generator:
 * 데이터 전처리를 진행하며 이미지를 1/255로 스케일 조정을 진행합니다. 
 * 모든 이미지를 150 × 150 크기로 타깃 디레터리를 설정 후 타깃 사이즈와 batch 사이즈를 정해줍니다.
 * Binary_crossentropy 손실을 사용하기 때문에 이진 레이블이 필요하다.
-* 배치 데이터와 레이블 크기를 확입합니다.<br/><br/>
+* 배치 데이터와 레이블 크기를 확합니다.<br/><br/>
 
 ### (4) Model construction, variable setting
 ```python
@@ -311,7 +310,7 @@ model.compile(loss='binary_crossentropy',
 ```
 <br/><br/>
 * adam VS RMSprop를 변수로서 비교해봅니다.
-* lr : learning rate로 10^-5 ~ 10^-4 설정합니다. model1 같은 경우 1e-4로 설정하였습니다.
+* lr : learning rate로 10^-5 ~ 10^-4로 설정합니다. model1 같은 경우 1e-4로 설정하였습니다.
 <br/><br/>
 ### (5) Steps Per Epoch
 ```python
@@ -363,8 +362,8 @@ Epoch 19/20<br/>
 Epoch 20/20<br/>
 20/20 [==============================]-206s 10s/step-loss: 0.2850-acc: 0.8798-val_loss: 0.2320-val_acc: 0.9250<br/>
 <br/><br/><br/>
-* steps per epoch : 한단계를 단계적으로 한 바퀴(몇 단계로 할건지)설정합니다.
-* epoch수를 조절하고 우리는 parameter를 조절하면서 오차를 개선
+* steps per epoch : 한 epoch에서 몇 단계로 학습을 할 것인지 결정합니다.
+* epoch수와 배치수라는 parameter를 조정하면서 오차를 개선할 것입니다.
 <br/><br/>
 ### (6) Load models
 ```python
@@ -445,8 +444,8 @@ plt.show()
 ![aix_model1](https://user-images.githubusercontent.com/117802301/204218717-473c62d5-7189-471a-923d-229cc7a63047.png)
 <br/><br/><br/><br/>
 * 최종적으로 matplotlib를 불러와 플롯을 통해 정확도를 측정합니다.
-* 오차를 줄이는 데에는 진동성, 데이터 부족, 크롤링 부족으로 판단 해보며 변수들의 값과 추가 자료를 준비해보면서 모델을 재구성합니다.
-* validation acc : 진동 , 감소하는 경향 : 데이터 부족 or 개선해봐야할점 (lr이 작아서), 크롤링 추가
+* 오차를 줄이되, 안정성을 유지하고 과적합을 일어나지 않게 하는 방향으로 지속적으로 개선을 시켰습니다.
+* 모델을 개선시킴에 따라 생긴 변화를 관찰하여, 모델의 성능 개선에 도움이 된 변화만 지속적으로 채택하였습니다. 
 <br/><br/><br/>
 # Result : Flower-Recognition-Model
 
@@ -781,7 +780,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
  4) optimizers : Adam
  5) lr = 1e-4
  6) steps_per_epoch = 30 & epochs = 15 
- 7) Data augmentation 외제외
+ 7) Data augmentation 제외
 
 ![best](https://user-images.githubusercontent.com/79332492/206860577-c244f622-de3f-4622-96d0-c67ec7f7f215.png)
 
